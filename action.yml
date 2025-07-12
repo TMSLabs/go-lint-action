@@ -1,6 +1,6 @@
 name: "TMS Go Lint"
 description: "Linting go code"
-input:
+inputs:
 
 runs:
   using: "composite"
