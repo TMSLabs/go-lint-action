@@ -8,8 +8,14 @@ runs:
     - uses: actions/setup-go@v5
       with:
         go-version-file: go.mod
+    - name: "install tooling"
+      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      shell: bash
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v8
       with:
         version: v2.2
         args: --timeout 5m
+    - name: govulncheck
+      run: govulncheck ./...
+      shell: bash
