@@ -22,6 +22,14 @@ runs:
         GONOPROXY: github.com/TemoMailerSolutions/*
         GONOSUMDB: github.com/TemoMailerSolutions/*
 
+    - name: Debug git config
+      run: git config --global --get-regexp url
+      shell: bash
+      
+    - name: Clean Go mod cache
+      run: go clean -modcache
+      shell: bash
+
     - name: "go mod tidy"
       run: go mod tidy
       shell: bash
