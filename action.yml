@@ -30,3 +30,7 @@ runs:
     - name: govulncheck
       run: govulncheck ./...
       shell: bash
+  env:
+    GOPRIVATE: github.com/TemoMailerSolutions/*
+    GONOPROXY: github.com/TemoMailerSolutions/*
+    GONOSUMDB: github.com/TemoMailerSolutions/*
