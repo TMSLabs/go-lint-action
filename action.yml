@@ -9,24 +9,41 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+    
     - name: "setup private repo access"
       run: git config --global url."https://${{ inputs.github-token }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
       shell: bash
+      
     - uses: actions/setup-go@v5
       with:
         go-version-file: go.mod
+      env:
+        GOPRIVATE: github.com/TemoMailerSolutions/*
+        GONOPROXY: github.com/TemoMailerSolutions/*
+        GONOSUMDB: github.com/TemoMailerSolutions/*
+
     - name: "install tooling"
       run: go install golang.org/x/vuln/cmd/govulncheck@latest
       shell: bash
+      env:
+        GOPRIVATE: github.com/TemoMailerSolutions/*
+        GONOPROXY: github.com/TemoMailerSolutions/*
+        GONOSUMDB: github.com/TemoMailerSolutions/*
+
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v8
       with:
         version: v2.2
         args: --timeout 5m
+      env:
+        GOPRIVATE: github.com/TemoMailerSolutions/*
+        GONOPROXY: github.com/TemoMailerSolutions/*
+        GONOSUMDB: github.com/TemoMailerSolutions/*
+
     - name: govulncheck
       run: govulncheck ./...
       shell: bash
-  env:
-    GOPRIVATE: github.com/TemoMailerSolutions/*
-    GONOPROXY: github.com/TemoMailerSolutions/*
-    GONOSUMDB: github.com/TemoMailerSolutions/*
+      env:
+        GOPRIVATE: github.com/TemoMailerSolutions/*
+        GONOPROXY: github.com/TemoMailerSolutions/*
+        GONOSUMDB: github.com/TemoMailerSolutions/*
