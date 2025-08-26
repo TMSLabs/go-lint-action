@@ -4,7 +4,11 @@ inputs:
   github-token:
     description: 'github token'
     required: true
-
+  templ:
+    description: 'Run templ build (optional)'
+    required: false
+    default: 'false'
+    
 runs:
   using: "composite"
   steps:
@@ -20,6 +24,14 @@ runs:
       with:
         go-version-file: go.mod
 
+    - name: "templ lint"
+      if: ${{ inputs.templ == 'true' }}
+      run: |
+        templ_version=$(go list -m -f '{{.Version}}' github.com/a-h/templ)
+        go install github.com/a-h/templ/cmd/templ@${templ_version}
+        templ build
+      shell: bash
+      
     - name: "go mod tidy"
       run: go mod tidy
       shell: bash
