@@ -36,7 +36,10 @@ runs:
       shell: bash
       
     - name: "go mod tidy"
-      run: go mod tidy
+      run: |
+        export GOPRIVATE=github.com/TemoMailerSolutions/*
+        git config --global url."https://${{ inputs.github-token }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+        go mod tidy
       shell: bash
       
     - name: "install tooling"
